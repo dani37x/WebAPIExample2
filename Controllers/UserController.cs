@@ -21,26 +21,49 @@ namespace WebAPIExample2.Controllers
         {
             return Ok(await _userService.GetUser(userId));
         }
+        [HttpGet]
+        [Route("User")]
+
+        public async Task<IActionResult> GetUsers()
+        {
+            return Ok(await _userService.GetUsers());
+        }
 
         [HttpPost]
         public async Task<ActionResult> AddUser(User userModel)
         {
-            await _userService.AddUser(userModel);
-            return Ok("git");
+            if (await _userService.AddUser(userModel))
+            {
+                return Ok(userModel);
+            }
+            return NoContent();
+
         }
 
         [HttpPut]
         public async Task<ActionResult> UpdateUser(User userModel)
         {
+            var existingUser = await _userService.GetUser(userModel.UserId);
+            if (existingUser == null)
+            {
+                return NotFound();
+            }
+
             await _userService.UpdateUser(userModel);
-            return Ok();
+            return NoContent();
         }
 
         [HttpDelete("{userId}")]
         public async Task<ActionResult> DeleteUser(int userId)
         {
+            var existingUser = await _userService.GetUser(userId);
+            if (existingUser == null)
+            {
+                return NotFound();
+            }
+
             await _userService.DeleteUser(userId);
-            return Ok();
+            return NoContent();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using WebAPIExample2.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using WebAPIExample2.Data;
 using WebAPIExample2.Interfaces;
 using WebAPIExample2.Models;
 
@@ -17,11 +18,27 @@ namespace WebAPIExample2.Repositories
             var user = await _dataContext.User.FindAsync(userId);
             return user != null ? user : new User();
         }
-
-        public async Task AddUser(User userModel)
+        public async Task<User> GetUser(LoginModel loginModel)
         {
-            _dataContext.Add(userModel);
-            await _dataContext.SaveChangesAsync();
+            var user = await _dataContext.User.FirstOrDefaultAsync(u => u.Email == loginModel.Email && u.Password == loginModel.Password);
+            return user != null ? user : null;
+        }
+        public async Task<IEnumerable<User>> GetUsers()
+        {
+            return await _dataContext.User.ToListAsync();
+        }
+
+        public async Task<bool> AddUser(User userModel)
+        {
+            await _dataContext.User.FirstOrDefaultAsync(u => u.Email == userModel.Email);
+            if (userModel != null)
+            {
+                await _dataContext.AddAsync(userModel);
+                await _dataContext.SaveChangesAsync();
+                return true;
+
+            }
+            return false;
         }
         public async Task UpdateUser(User userModel)
         {

@@ -15,9 +15,13 @@ namespace WebAPIExample2.Services
         {
             return await _userRepository.GetUser(userId);
         }
-        public async Task AddUser(User userModel)
+        public async Task<IEnumerable<User>> GetUsers()
         {
-            await _userRepository.AddUser(userModel);
+            return await _userRepository.GetUsers();
+        }
+        public async Task<bool> AddUser(User userModel)
+        {
+            return await _userRepository.AddUser(userModel);
         }
         public async Task UpdateUser(User userModel)
         {

@@ -12,7 +12,7 @@ using WebAPIExample2.Data;
 namespace WebAPIExample2.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240524071114_initial")]
+    [Migration("20240528084747_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -70,6 +70,21 @@ namespace WebAPIExample2.Migrations
                     b.ToTable("Service");
                 });
 
+            modelBuilder.Entity("WebAPIExample2.Models.ServiceOrder", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderId", "ServiceId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("ServiceOrder");
+                });
+
             modelBuilder.Entity("WebAPIExample2.Models.User", b =>
                 {
                     b.Property<int>("UserId")
@@ -112,6 +127,35 @@ namespace WebAPIExample2.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WebAPIExample2.Models.ServiceOrder", b =>
+                {
+                    b.HasOne("WebAPIExample2.Models.Order", "Order")
+                        .WithMany("ServiceOrders")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebAPIExample2.Models.Service", "Service")
+                        .WithMany("ServiceOrders")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Service");
+                });
+
+            modelBuilder.Entity("WebAPIExample2.Models.Order", b =>
+                {
+                    b.Navigation("ServiceOrders");
+                });
+
+            modelBuilder.Entity("WebAPIExample2.Models.Service", b =>
+                {
+                    b.Navigation("ServiceOrders");
                 });
 #pragma warning restore 612, 618
         }
