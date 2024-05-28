@@ -1,12 +1,14 @@
-﻿using WebAPIExample2.Models;
+﻿using WebAPIExample2.DTO;
+using WebAPIExample2.Models;
 
 namespace WebAPIExample2.Interfaces
 {
     public interface IOrderRepository
     {
-        public Task<Order> GetOrder(int orderId);
-        public Task<bool> AddOrder(Order orderModel);
-        public Task<bool> UpdateOrder(Order orderModel);
-        public Task<bool> DeleteOrder(int orderId);
+        public Task<OrderDetail> GetOrder(int orderId);
+        public Task<IEnumerable<OrderDetail>> GetOrders();
+        public Task AddOrder(OrderDTO orderDTO);
+        public Task UpdateOrder(OrderDTO orderDTO);
+        public Task DeleteOrder(int orderId);
     }
 }
