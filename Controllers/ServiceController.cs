@@ -23,7 +23,7 @@ namespace WebAPIExample2.Controllers
             return Ok(await _serviceService.GetService(serviceId));
         }
         [HttpGet]
-        [Route("ServicesIds")]
+        [Route("Services")]
 
         public async Task<IActionResult> GetServices()
         {

@@ -22,7 +22,7 @@ namespace WebAPIExample2.Controllers
             return Ok(await _userService.GetUser(userId));
         }
         [HttpGet]
-        [Route("User")]
+        [Route("Users")]
 
         public async Task<IActionResult> GetUsers()
         {
