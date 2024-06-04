@@ -23,7 +23,7 @@ namespace WebAPIExample2.Controllers
             return Ok(await _orderService.GetOrder(orderId));
         }
         [HttpGet]
-        [Route("Order")]
+        [Route("Orders")]
 
         public async Task<IActionResult> GetOrders()
         {
