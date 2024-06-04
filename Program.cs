@@ -34,6 +34,10 @@ namespace WebAPIExample2
 
             builder.Services.AddControllers();
 
+            builder.Services.AddCors(options => options.AddPolicy(name: "Frontend",
+                policy => policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod()));
+
+
             builder.Services.AddDbContext<DataContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -81,6 +85,8 @@ namespace WebAPIExample2
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("Frontend");
 
             app.UseHttpsRedirection();
 
