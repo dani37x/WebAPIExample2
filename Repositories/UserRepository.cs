@@ -30,8 +30,8 @@ namespace WebAPIExample2.Repositories
 
         public async Task<bool> AddUser(User userModel)
         {
-            await _dataContext.User.FirstOrDefaultAsync(u => u.Email == userModel.Email);
-            if (userModel != null)
+            var user = await _dataContext.User.FirstOrDefaultAsync(u => u.Email == userModel.Email);
+            if (user != null)
             {
                 await _dataContext.AddAsync(userModel);
                 await _dataContext.SaveChangesAsync();
