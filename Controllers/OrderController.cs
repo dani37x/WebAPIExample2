@@ -33,8 +33,9 @@ namespace WebAPIExample2.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrder(OrderDTO orderDTO)
         {
-            await _orderService.AddOrder(orderDTO);
-            return Ok(orderDTO);
+            if(await _orderService.AddOrder(orderDTO))
+                return Ok(orderDTO);
+            return NotFound("Something is gone wrong with your order. Check data");
         }
 
         [HttpPut]

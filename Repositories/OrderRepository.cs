@@ -44,7 +44,7 @@ namespace WebAPIExample2.Repositories
 
             return ordersDetails;
         }
-        public async Task AddOrder(OrderDTO orderDTO)
+        public async Task<bool> AddOrder(OrderDTO orderDTO)
         {
             var user = await _dataContext.User.FindAsync(orderDTO.UserId);
             int ordersSum = await _dataContext.Order.Select(o => o.OrderId).CountAsync();
@@ -58,6 +58,8 @@ namespace WebAPIExample2.Repositories
                 };
 
                 await _dataContext.Order.AddAsync(order);
+                await _dataContext.SaveChangesAsync();
+
 
                 var serviceOrders = new List<ServiceOrder>();
                 foreach (var serviceId in orderDTO.ServicesIds)
@@ -69,14 +71,20 @@ namespace WebAPIExample2.Repositories
                         var orderService = new ServiceOrder
                         {
                             ServiceId = serviceId,
-                            OrderId = ordersSum + 1,
+                            OrderId = order.OrderId,
                         };
                        serviceOrders.Add(orderService);
+                    }
+                    else
+                    {
+                        return false;
                     }
                 }
                 await _dataContext.ServiceOrder.AddRangeAsync(serviceOrders);
                 await _dataContext.SaveChangesAsync();
+                return true;
             }
+            return false;
         }
         public async Task UpdateOrder(OrderDTO orderDTO)
         {

@@ -20,9 +20,9 @@ namespace WebAPIExample2.Services
         {
             return await _orderRepository.GetOrders();
         }
-        public async Task AddOrder(OrderDTO orderDTO)
+        public async Task<bool> AddOrder(OrderDTO orderDTO)
         {
-            await _orderRepository.AddOrder(orderDTO);
+            return await _orderRepository.AddOrder(orderDTO);
         }
         public async Task UpdateOrder(OrderDTO orderDTO)
         {
