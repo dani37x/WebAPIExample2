@@ -19,14 +19,25 @@ namespace WebAPIExample2.Controllers
         [HttpGet("{userId}")]
         public async Task<ActionResult> GetUser(int userId)
         {
-            return Ok(await _userService.GetUser(userId));
+            var user = await _userService.GetUser(userId);
+            if(user != null)
+            {
+                return Ok(user);
+            }
+            return NotFound($"Lack of user with id: {userId}");
+
         }
         [HttpGet]
-        [Route("Users")]
+        [Route("users")]
 
         public async Task<IActionResult> GetUsers()
         {
-            return Ok(await _userService.GetUsers());
+            var users = await _userService.GetUsers();
+            if (users != null && users.Any())
+            {
+                return Ok(users);
+            }
+            return NotFound($"Lack of users");
         }
 
         [HttpPost]

@@ -20,15 +20,26 @@ namespace WebAPIExample2.Controllers
         [HttpGet("{orderId}")]
         public async Task<ActionResult> GetOrder(int orderId)
         {
-            return Ok(await _orderService.GetOrder(orderId));
+            var order = await _orderService.GetOrder(orderId);
+            if (order != null)
+            {
+                return Ok(order);
+            }
+            return NotFound($"Lack of order with id: {orderId}");
         }
-        [HttpGet]
-        [Route("Orders")]
 
+        [HttpGet]
+        [Route("orders")]
         public async Task<IActionResult> GetOrders()
         {
-            return Ok(await _orderService.GetOrders());
+            var orders = await _orderService.GetOrders();
+            if (orders != null && orders.Any())
+            {
+                return Ok(orders);
+            }
+            return NotFound("Lack of orders");
         }
+
 
         [HttpPost]
         public async Task<ActionResult> AddOrder(OrderDTO orderDTO)
@@ -41,21 +52,21 @@ namespace WebAPIExample2.Controllers
         [HttpPut]
         public async Task<ActionResult> UpdateOrder(OrderDTO orderDTO)
         {
-            var existingService = await _orderService.GetOrder(orderDTO.OrderId);
-            if (existingService == null)
+            var existingOrder = await _orderService.GetOrder(orderDTO.OrderId);
+            if (existingOrder == null)
             {
-                return NotFound();
+                return NotFound("There is no order like this one");
             }
 
             await _orderService.UpdateOrder(orderDTO);
-            return NoContent();
+            return Ok("The part has been updated");
         }
 
         [HttpDelete("{orderId}")]
         public async Task<ActionResult> DeleteOrder(int orderId)
         {
-            var existingService = await _orderService.GetOrder(orderId);
-            if (existingService == null)
+            var existingOrder = await _orderService.GetOrder(orderId);
+            if (existingOrder == null)
             {
                 return NotFound();
             }

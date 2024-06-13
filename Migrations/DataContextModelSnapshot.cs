@@ -30,6 +30,9 @@ namespace WebAPIExample2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
+                    b.Property<bool>("Complaint")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -41,6 +44,26 @@ namespace WebAPIExample2.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("WebAPIExample2.Models.Part", b =>
+                {
+                    b.Property<int>("PartId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PartId"));
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PartId");
+
+                    b.ToTable("Part");
                 });
 
             modelBuilder.Entity("WebAPIExample2.Models.Service", b =>

@@ -7,6 +7,7 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using WebAPIExample2.Data;
 using WebAPIExample2.Interfaces;
+using WebAPIExample2.IRepositories;
 using WebAPIExample2.IServices;
 using WebAPIExample2.Repositories;
 using WebAPIExample2.Services;
@@ -22,6 +23,9 @@ namespace WebAPIExample2
             // Add services to the container.
             builder.Services.AddTransient<IUserService, UserService>();
             builder.Services.AddTransient<IUserRepository, UserRepository>();
+
+            builder.Services.AddTransient<IPartRepository, PartRepository>();
+            builder.Services.AddTransient<IPartService, PartService>();
 
             builder.Services.AddTransient<IOrderService, OrderService>();
             builder.Services.AddTransient<IOrderRepository, OrderRepository>();

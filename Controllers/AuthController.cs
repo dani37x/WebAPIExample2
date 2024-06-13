@@ -18,7 +18,7 @@ namespace WebAPIExample2.Controllers
 
 
         [HttpPost]
-        [Route("Login")]
+        [Route("login")]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
             var token = await _authService.Login(loginModel);
@@ -29,7 +29,7 @@ namespace WebAPIExample2.Controllers
             return NotFound();
         }
         [HttpPost]
-        [Route("Register")]
+        [Route("register")]
         public async Task<IActionResult> Register(User userModel)
         {
             if (await _authService.Register(userModel))

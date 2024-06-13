@@ -16,7 +16,7 @@ namespace WebAPIExample2.Repositories
         public async Task<User> GetUser(int userId)
         {
             var user = await _dataContext.User.FindAsync(userId);
-            return user != null ? user : new User();
+            return user != null ? user : null;
         }
         public async Task<User> GetUser(LoginModel loginModel)
         {
@@ -33,12 +33,11 @@ namespace WebAPIExample2.Repositories
             var user = await _dataContext.User.FirstOrDefaultAsync(u => u.Email == userModel.Email);
             if (user != null)
             {
-                await _dataContext.AddAsync(userModel);
-                await _dataContext.SaveChangesAsync();
-                return true;
-
+                return false;
             }
-            return false;
+            await _dataContext.AddAsync(userModel);
+            await _dataContext.SaveChangesAsync();
+            return true;
         }
         public async Task UpdateUser(User userModel)
         {

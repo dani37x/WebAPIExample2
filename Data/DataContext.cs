@@ -10,6 +10,7 @@ namespace WebAPIExample2.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         public DbSet<User> User => Set<User>();
+        public DbSet<Part> Part => Set<Part>();
         public DbSet<Order> Order => Set<Order>();
         public DbSet<Service> Service => Set<Service>();
         public DbSet<ServiceOrder> ServiceOrder => Set<ServiceOrder>();

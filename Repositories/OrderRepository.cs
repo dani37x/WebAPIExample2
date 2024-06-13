@@ -93,6 +93,7 @@ namespace WebAPIExample2.Repositories
 
             if (order != null || user != null)
             {
+                order.Complaint = orderDTO.Complaint;
                 order.UserId = orderDTO.UserId;
                 order.User = user;
 

@@ -7,6 +7,7 @@ namespace WebAPIExample2.DTO
     {
         public int OrderId { get; set; }
         public DateTime Date { get; set; } = DateTime.UtcNow;
+        public bool Complaint { get; set; } = false;
         public ICollection<int> ServicesIds { get; set; } = new List<int>();
         public int UserId { get; set; } = 1;
     }

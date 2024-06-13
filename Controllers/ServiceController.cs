@@ -20,15 +20,26 @@ namespace WebAPIExample2.Controllers
         [HttpGet("{serviceId}")]
         public async Task<ActionResult> GetService(int serviceId)
         {
-            return Ok(await _serviceService.GetService(serviceId));
+            var service = await _serviceService.GetService(serviceId);
+            if (service != null)
+            {
+                return Ok(service);
+            }
+            return NotFound($"Lack of service with id: {serviceId}");
         }
+
         [HttpGet]
         [Route("Services")]
-
         public async Task<IActionResult> GetServices()
         {
-            return Ok(await _serviceService.GetServices());
+            var services = await _serviceService.GetServices();
+            if (services != null && services.Any())
+            {
+                return Ok(services);
+            }
+            return NotFound("Lack of services");
         }
+
 
         [HttpPost]
         public async Task<ActionResult> AddService(ServiceDTO serviceDTO)
